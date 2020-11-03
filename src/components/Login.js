@@ -8,6 +8,10 @@ const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 
 const login = (username) => {
+  axios.post('http://localhost:3000/api/user', {
+    'username': username,
+    'cartList': []
+  })
 }
 
   return (
@@ -37,6 +41,7 @@ const login = (username) => {
             placeholderTextColor='black'
             value={password}
             autoCapitalize='none'
+            secureTextEntry={true}
             onChangeText={(text) => setPassword(text)}
           />
           <TouchableOpacity
