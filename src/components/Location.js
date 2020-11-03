@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
-const Location = () => {
-  const [location, setLocation] = useState(false);
+const Location = ({ setIsLocationSet }) => {
 
   return (
     <View style={styles.container}>
@@ -12,7 +11,7 @@ const Location = () => {
         <Icon name="location-pin" size={40} color="black" />
         <TextInput
           style={styles.inputbox}
-          onSubmitEditing={() => setLocation(true)}
+          onSubmitEditing={() => setIsLocationSet(true)}
         />
       </View>
     </View>

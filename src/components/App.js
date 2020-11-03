@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,13 +17,20 @@ import {
 } from 'react-native';
 
 import Location from './Location';
+import Swipe from './Swipe';
 
 const App = () => {
   const [isLocationSet, setIsLocationSet] = useState(false);
 
+
+  useEffect (() => {
+    setIsLocationSet(false)
+  }, [])
+
   return (
     <View style={styles.background}>
-      <Location />
+      {/* {!isLocationSet && <Location setIsLocationSet={setIsLocationSet} />} */}
+      <Swipe />
     </View>
   );
 };
