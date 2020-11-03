@@ -21,7 +21,7 @@ import axios from 'axios';
 import Login from './Login';
 
 const App = () => {
-  const [login, setLogin] = useState(false);
+  const [loginComplete, setLoginComplete] = useState(false);
   const [isLocationSet, setIsLocationSet] = useState(false);
   const [foodData, setFoodData] = useState([
     {
@@ -41,8 +41,8 @@ const App = () => {
 
   return (
     <View style={styles.background}>
-      {!login && <Login />}
-      {!isLocationSet && login && <Location setIsLocationSet={setIsLocationSet} />}
+      {!loginComplete && <Login setLoginComplete={setLoginComplete}/>}
+      {!isLocationSet && loginComplete && <Location setIsLocationSet={setIsLocationSet} />}
       {isLocationSet && <Swipe foodData={foodData} />}
     </View>
   );

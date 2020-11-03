@@ -50,5 +50,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(210, 210, 210)',
     borderWidth: 3,
     borderRadius: 10,
+    color: 'black',
+    fontSize: 20,
+    paddingLeft: 10,
   },
 });
