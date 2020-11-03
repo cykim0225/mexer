@@ -15,14 +15,13 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
 import Location from './Location';
 import Swipe from './Swipe';
-import Checkout from './Checkout';
 import axios from 'axios';
+import Login from './Login';
 
 const App = () => {
-  const [goToCheckout, setGoToCheckout] = useState(false);
+  const [login, setLogin] = useState(false);
   const [isLocationSet, setIsLocationSet] = useState(false);
   const [foodData, setFoodData] = useState([
     {
@@ -42,9 +41,9 @@ const App = () => {
 
   return (
     <View style={styles.background}>
-      {/* {!isLocationSet && <Location setIsLocationSet={setIsLocationSet} />} */}
-      {!goToCheckout && <Swipe setGoToCheckout={setGoToCheckout} foodData={foodData} />}
-      {goToCheckout && <Checkout />}
+      {!login && <Login />}
+      {!isLocationSet && login && <Location setIsLocationSet={setIsLocationSet} />}
+      {isLocationSet && <Swipe foodData={foodData} />}
     </View>
   );
 };

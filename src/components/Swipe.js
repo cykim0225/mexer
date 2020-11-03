@@ -3,32 +3,37 @@ import { View, Text, Image, Dimensions, StyleSheet, Animated, SafeAreaView, PanR
 import dummyData from '../../dummyData';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
+import Checkout from './Checkout';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const data = dummyData;
 
-const Swipe = ({ setGoToCheckout, foodData }) => {
+const Swipe = ({ foodData }) => {
   const position = new Animated.ValueXY();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemNum, setitemNum] = useState(0);
+  const [cart, setCart] = useState([]);
+  const [goToCheckout, setGoToCheckout] = useState(false);
 
   const rotate = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: ['-10deg', '0deg', '10deg'],
     extrapolate: 'clamp',
   });
+
   const rotateAndTranslate = {
     transform:[{
       rotate: rotate,
     },
     ...position.getTranslateTransform()],
   };
+
   const nextCardOpacity = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: [1, 0, 1],
     extrapolate: 'clamp',
   });
+
   const nextCardScale = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: [1, 0.8, 1],
@@ -65,10 +70,14 @@ const Swipe = ({ setGoToCheckout, foodData }) => {
         }).start()
       }
     }
-  })
+  });
 
-  const handlePressXorCheck = () => {
-
+  const addToCart = (item) => {
+    const update = {
+      name: item.name,
+      price: item.price,
+    }
+    cart.push(item);
   }
 
   renderFoods = () => {
@@ -106,46 +115,57 @@ const Swipe = ({ setGoToCheckout, foodData }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.top}>
-        <Icon2
-          onPress={() => console.log('clicked')}
-          style={styles.profileIcon}
-          name="person-outline"
-          size={35}
-          color='black'
-        />
-        {itemNum > 0 &&
-        <View style={styles.cartItemAmount}>
-          <Text
-            style={{ fontSize: 17 }}
+    <View style={styles.container}>
+      {!goToCheckout && (
+        <SafeAreaView style={styles.container}>
+        {console.log(cart, cart.length)}
+        <View style={styles.top}>
+          <Icon2
+            onPress={() => console.log('clicked')}
+            style={styles.profileIcon}
+            name="person-outline"
+            size={35}
+            color='black'
+          />
+          {itemNum > 0 &&
+          <View style={styles.cartItemAmount}>
+            <Text
+              style={{ fontSize: 17 }}
+              onPress={() => setGoToCheckout(true)}
+            >
+              {itemNum}
+            </Text>
+          </View>
+          }
+          <Icon2
             onPress={() => setGoToCheckout(true)}
-          >
-            {itemNum}
-          </Text>
+            style={styles.cartIcon}
+            name="cart-outline"
+            size={40}
+            color='black'
+          />
         </View>
-        }
-        <Icon2
-          onPress={() => setGoToCheckout(true)}
-          style={styles.cartIcon}
-          name="cart-outline"
-          size={40}
-          color='black'
-        />
-      </View>
-      <View style={styles.middle}>
-        {renderFoods()}
-      </View>
-      <View style={styles.bottom}>
-        <Icon
-          onPress={() => setitemNum(itemNum + 1)}
-          style={styles.checkIcon}
-          name="check-circle"
-          size={60}
-          color="#6ee3b4"
-        />
-      </View>
-    </SafeAreaView>
+        <View style={styles.middle}>
+          {renderFoods()}
+        </View>
+        <View style={styles.bottom}>
+          <Icon
+            onPress={() => {
+              setitemNum(itemNum + 1);
+              addToCart(foodData[currentIndex]);
+            }}
+            style={styles.checkIcon}
+            name="check-circle"
+            size={60}
+            color="#6ee3b4"
+          />
+        </View>
+      </SafeAreaView>
+      )}
+      {goToCheckout && <Checkout cart={cart} />}
+    </View>
+
+
   )
 }
 
