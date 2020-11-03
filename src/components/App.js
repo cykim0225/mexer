@@ -18,19 +18,22 @@ import {
 
 import Location from './Location';
 import Swipe from './Swipe';
+import Checkout from './Checkout';
 
 const App = () => {
+  const [goToCheckout, setGoToCheckout] = useState(false);
   const [isLocationSet, setIsLocationSet] = useState(false);
 
 
-  useEffect (() => {
-    setIsLocationSet(false)
-  }, [])
+  // useEffect (() => {
+  //   setIsLocationSet(false)
+  // }, [])
 
   return (
     <View style={styles.background}>
       {/* {!isLocationSet && <Location setIsLocationSet={setIsLocationSet} />} */}
-      <Swipe />
+      {!goToCheckout && <Swipe setGoToCheckout={setGoToCheckout} />}
+      {goToCheckout && <Checkout />}
     </View>
   );
 };

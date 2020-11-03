@@ -8,7 +8,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const data = dummyData;
 
-const Swipe = () => {
+const Swipe = ({ setGoToCheckout }) => {
   const position = new Animated.ValueXY();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemNum, setitemNum] = useState(0);
@@ -117,11 +117,16 @@ const Swipe = () => {
         />
         {itemNum > 0 &&
         <View style={styles.cartItemAmount}>
-          <Text style={{ fontSize: 17 }}>{itemNum}</Text>
+          <Text
+            style={{ fontSize: 17 }}
+            onPress={() => setGoToCheckout(true)}
+          >
+            {itemNum}
+          </Text>
         </View>
         }
         <Icon2
-          onPress={() => console.log('clicked')}
+          onPress={() => setGoToCheckout(true)}
           style={styles.cartIcon}
           name="cart-outline"
           size={40}
@@ -132,12 +137,6 @@ const Swipe = () => {
         {renderFoods()}
       </View>
       <View style={styles.bottom}>
-        {/* <Icon
-          style={styles.xIcon}
-          name="x-circle"
-          size={60}
-          color="#ec5288"
-        /> */}
         <Icon
           onPress={() => setitemNum(itemNum + 1)}
           style={styles.checkIcon}
@@ -193,14 +192,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 30,
     marginTop: 30,
-  },
-  xIcon: {
-    paddingRight: 60,
-    paddingLeft: 60,
-  },
-  checkIcon: {
-    paddingRight: 60,
-    paddingLeft: 60,
   },
   cartItemAmount: {
     position: 'absolute',
