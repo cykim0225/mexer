@@ -8,7 +8,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const data = dummyData;
 
-const Swipe = ({ setGoToCheckout }) => {
+const Swipe = ({ setGoToCheckout, foodData }) => {
   const position = new Animated.ValueXY();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemNum, setitemNum] = useState(0);
@@ -72,7 +72,7 @@ const Swipe = ({ setGoToCheckout }) => {
   }
 
   renderFoods = () => {
-    return data.map((item, i) => {
+    return foodData.map((item, i) => {
       if (i < currentIndex) {
         return null;
       } else if (i === currentIndex) {

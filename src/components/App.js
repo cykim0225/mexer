@@ -19,20 +19,31 @@ import {
 import Location from './Location';
 import Swipe from './Swipe';
 import Checkout from './Checkout';
+import axios from 'axios';
 
 const App = () => {
   const [goToCheckout, setGoToCheckout] = useState(false);
   const [isLocationSet, setIsLocationSet] = useState(false);
+  const [foodData, setFoodData] = useState([
+    {
+      id: 1,
+      name: 'Hamburger',
+      address: '65449 Viola Keys',
+      price: 10.99,
+      imageUrl: 'https://ghrsea12-mvp.s3-us-west-2.amazonaws.com/mvpPic/pic6.jpg',
+    }
+  ]);
 
-
-  // useEffect (() => {
-  //   setIsLocationSet(false)
-  // }, [])
+  useEffect (() => {
+    axios.get('http://localhost:3000/api/foods')
+      .then(({ data }) => setFoodData(data))
+      .catch((err) => console.log(err));
+  }, [])
 
   return (
     <View style={styles.background}>
       {/* {!isLocationSet && <Location setIsLocationSet={setIsLocationSet} />} */}
-      {!goToCheckout && <Swipe setGoToCheckout={setGoToCheckout} />}
+      {!goToCheckout && <Swipe setGoToCheckout={setGoToCheckout} foodData={foodData} />}
       {goToCheckout && <Checkout />}
     </View>
   );
