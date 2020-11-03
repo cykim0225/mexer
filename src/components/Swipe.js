@@ -115,9 +115,11 @@ const Swipe = () => {
           size={35}
           color='black'
         />
+        {itemNum > 0 &&
         <View style={styles.cartItemAmount}>
           <Text style={{ fontSize: 17 }}>{itemNum}</Text>
         </View>
+        }
         <Icon2
           onPress={() => console.log('clicked')}
           style={styles.cartIcon}
@@ -205,10 +207,11 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 50,
-    backgroundColor: '#ed1140',
-    right: 28,
-    bottom: 30,
+    backgroundColor: 'rgba(237, 17, 64, 0.8)',
+    right: 40,
+    bottom: 25,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 10,
   }
 })
