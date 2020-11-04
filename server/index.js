@@ -12,10 +12,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 app.get('/api/foods', foodController.getAll);
-app.get('/api/user', (req, res) => {
 
-});
+app.get('/api/user', userController.getUser);
 app.post('/api/user', userController.createUser);
+app.patch('/api/user', userController.update);
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`)

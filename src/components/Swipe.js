@@ -16,6 +16,30 @@ const Swipe = ({ foodData, currentUser }) => {
   const [cart, setCart] = useState([]);
   const [goToCheckout, setGoToCheckout] = useState(false);
 
+  const getData = (currentUser) => {
+    console.log(currentUser)
+    axios.get('http://localhost:3000/api/user', {
+      params: {
+        _id: currentUser._id
+      }
+    })
+      .then(({ data }) => {
+        if (data[0]) {
+          setCart(data[0].cartList);
+          let total = 0;
+          for (let i = 0; i < data[0].cartList.length; i += 1) {
+            total += data[0].cartList[i].quantity;
+          };
+          setitemNum(total);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getData(currentUser);
+  }, []);
+
   const rotate = position.x.interpolate({
     inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
     outputRange: ['-10deg', '0deg', '10deg'],
@@ -73,28 +97,39 @@ const Swipe = ({ foodData, currentUser }) => {
     }
   });
 
-  const addToCart = (item) => {
+  const addToCart = (item, currentUser) => {
     const newCart = [...cart];
     const data = {
       id: item.id,
       name: item.name,
       price: item.price,
     };
+    let exist = false;
+
     if (newCart.length === 0) {
-      data['quantity'] = 1;
-      cart.push(data)
+      data.quantity = 1;
+      newCart.push(data)
     } else {
       for (let i = 0; i < newCart.length; i += 1) {
         if (data.id === newCart[i].id) {
           newCart[i].quantity += 1;
-        } else {
-          data.quantity = 1;
-          cart.push(data);
+          exist = true;
         }
-      };
+      }
+      if (!exist) {
+        data.quantity = 1;
+        newCart.push(data);
+      }
     }
-    console.log(cart);
-  }
+    axios.patch('http://localhost:3000/api/user', {
+      params: {
+        _id: currentUser._id,
+        list: newCart,
+      }
+    })
+      .then(() => getData(currentUser))
+      .catch((err) => console.log(err));
+  };
 
   renderFoods = () => {
     return foodData.map((item, i) => {
@@ -134,7 +169,6 @@ const Swipe = ({ foodData, currentUser }) => {
     <View style={styles.container}>
       {!goToCheckout && (
         <SafeAreaView style={styles.container}>
-        {console.log(cart, cart.length)}
         <View style={styles.top}>
           <Icon2
             onPress={() => console.log('clicked')}
@@ -167,8 +201,7 @@ const Swipe = ({ foodData, currentUser }) => {
         <View style={styles.bottom}>
           <Icon
             onPress={() => {
-              setitemNum(itemNum + 1);
-              addToCart(foodData[currentIndex]);
+              addToCart(foodData[currentIndex], currentUser);
             }}
             style={styles.checkIcon}
             name="check-circle"

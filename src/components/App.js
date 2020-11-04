@@ -23,7 +23,7 @@ import Login from './Login';
 const App = () => {
   const [loginComplete, setLoginComplete] = useState(false);
   const [isLocationSet, setIsLocationSet] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({ _id: 'asdf', username: '', cartList: [] });
   const [foodData, setFoodData] = useState([
     {
       id: 1,
