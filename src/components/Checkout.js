@@ -14,7 +14,7 @@ const quantityHandler = (action, idx) => {
         <Text style={styles.orderText}>Your Order</Text>
       </SafeAreaView>
       <ScrollView>
-        {cart.map((item, i) => (
+        {cart.length > 0 && cart.map((item, i) => (
           <View style={styles.cart}>
             <Text style={{marginLeft: 20}}>
               {item.name}

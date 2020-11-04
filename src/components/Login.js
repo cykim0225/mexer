@@ -3,7 +3,7 @@ import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-nativ
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 
-const Login = ({ setLoginComplete }) => {
+const Login = ({ setLoginComplete, setCurrentUser }) => {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 
@@ -12,7 +12,10 @@ const login = (username) => {
     'username': username,
     'cartList': []
   })
-    .then(() => setLoginComplete(true))
+    .then(({ data }) => {
+      setCurrentUser(data[0])
+      setLoginComplete(true);
+    })
     .catch((err) => console.log(err));
 };
 

@@ -11,7 +11,7 @@ exports.createUser = (req, res) => {
           res.send(err);
         });
       } else {
-        res.send(200);
+        res.send(data);
       }
     })
     .catch((err) => res.send(err));

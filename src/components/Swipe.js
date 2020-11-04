@@ -4,11 +4,12 @@ import dummyData from '../../dummyData';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Checkout from './Checkout';
+import axios from 'axios';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const Swipe = ({ foodData }) => {
+const Swipe = ({ foodData, currentUser }) => {
   const position = new Animated.ValueXY();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemNum, setitemNum] = useState(0);
@@ -73,11 +74,26 @@ const Swipe = ({ foodData }) => {
   });
 
   const addToCart = (item) => {
-    const update = {
+    const newCart = [...cart];
+    const data = {
+      id: item.id,
       name: item.name,
       price: item.price,
+    };
+    if (newCart.length === 0) {
+      data['quantity'] = 1;
+      cart.push(data)
+    } else {
+      for (let i = 0; i < newCart.length; i += 1) {
+        if (data.id === newCart[i].id) {
+          newCart[i].quantity += 1;
+        } else {
+          data.quantity = 1;
+          cart.push(data);
+        }
+      };
     }
-    cart.push(item);
+    console.log(cart);
   }
 
   renderFoods = () => {
@@ -164,8 +180,6 @@ const Swipe = ({ foodData }) => {
       )}
       {goToCheckout && <Checkout cart={cart} />}
     </View>
-
-
   )
 }
 
