@@ -60,7 +60,7 @@ const Checkout = ({ cart, currentUser, getData }) => {
               <View style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
                 <View style={styles.bottom}>
                   <Text>Items subtotal: </Text>
-                  <Text>{`$${total}`}</Text>
+                  <Text>{`$${(total).toFixed(2)}`}</Text>
                 </View>
                 <View style={styles.bottom}>
                   <Text>Delivery fee: </Text>
@@ -68,11 +68,11 @@ const Checkout = ({ cart, currentUser, getData }) => {
                 </View>
                 <View style={styles.bottom}>
                   <Text>Tax: </Text>
-                  <Text>{`$${total * 0.1}`}</Text>
+                  <Text>{`$${(total * 0.1).toFixed(2)}`}</Text>
                 </View>
                 <View style={styles.bottom}>
                   <Text>Total: </Text>
-                  <Text>{`$${total + 2.5 + total * 0.1}`}</Text>
+                  <Text>{`$${(total + 2.5 + total * 0.1).toFixed(2)}`}</Text>
                 </View>
               </View>
               <View style={{ alignItems: 'center' }}>

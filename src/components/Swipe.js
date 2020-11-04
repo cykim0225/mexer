@@ -17,7 +17,6 @@ const Swipe = ({ foodData, currentUser }) => {
   const [goToCheckout, setGoToCheckout] = useState(false);
 
   const getData = (currentUser) => {
-    console.log(currentUser)
     axios.get('http://localhost:3000/api/user', {
       params: {
         _id: currentUser._id
