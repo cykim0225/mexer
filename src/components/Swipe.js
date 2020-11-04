@@ -211,7 +211,7 @@ const Swipe = ({ foodData, currentUser }) => {
         </View>
       </SafeAreaView>
       )}
-      {goToCheckout && <Checkout cart={cart} />}
+      {goToCheckout && <Checkout cart={cart} currentUser={currentUser} getData={getData} goToCheckout={setGoToCheckout} />}
     </View>
   )
 }

@@ -1,51 +1,102 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, Button, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 
-const Checkout = ({ cart }) => {
+const Checkout = ({ cart, currentUser, getData }) => {
+  const [total, setTotal] = useState(0);
 
-const quantityHandler = (action, idx) => {
-  console.log(action)
-}
+  useEffect(() => {
+    let t = 0;
+    for (let i = 0; i < cart.length; i += 1) {
+      let price = cart[i].price * cart[i].quantity;
+      t += price;
+    }
+    setTotal(t);
+  }, [])
+
+  const empty = (currentUser, getData) => {
+    axios.patch('http://localhost:3000/api/user', {
+      params: {
+        _id: currentUser._id,
+        list: [],
+      }
+    })
+      .then(() => getData(currentUser))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.top}>
-        <Text style={styles.orderText}>Your Order</Text>
-      </SafeAreaView>
-      <ScrollView>
-        {cart.length > 0 && cart.map((item, i) => (
-          <View style={styles.cart}>
-            <Text style={{marginLeft: 20}}>
-              {item.name}
-            </Text>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={styles.addRemoveIcon}>
-                <Icon
-                  onPress={() => quantityHandler('remove', i)}
-                  name="remove"
-                  size={22}
-                  color='#bbbbbb'
-                />
+      {cart.length > 0
+        ? (
+          <View style={styles.container}>
+            <SafeAreaView style={styles.top}>
+              <Text style={styles.orderText}>Your Order</Text>
+            </SafeAreaView>
+            <ScrollView>
+              {cart.length > 0 && cart.map((item, i) => (
+                <View key={item+i} style={styles.cart}>
+                  <Text style={{ paddingHorizontal: 30}}>
+                    {item.quantity}
+                  </Text>
+                  <View style={{flex: 1, justifyContent: 'flex-start', marginLeft: 10}}>
+                    <Text>
+                      {item.name}
+                    </Text>
+                  </View>
+                  <Text style={{justifyContent: 'flex-end', marginRight: 20}}>
+                    {`$${item.price * item.quantity}`}
+                  </Text>
+                </View>
+              ))}
+              <View style={{ alignItems: 'flex-start', marginLeft: 10 }}>
+                <Button
+                  onPress={() => {
+                    empty(currentUser, getData)
+                  }}
+                  title='X Empty order' />
               </View>
-              <View style={{ alignItems: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#bbbbbb', paddingHorizontal: 8, paddingVertical: 3, color: '#bbbbbb' }}>
-                <Text style={{ fontSize: 15, color: '#bbbbbb' }}>1</Text>
+              <View style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
+                <View style={styles.bottom}>
+                  <Text>Items subtotal: </Text>
+                  <Text>{`$${total}`}</Text>
+                </View>
+                <View style={styles.bottom}>
+                  <Text>Delivery fee: </Text>
+                  <Text>$2.5</Text>
+                </View>
+                <View style={styles.bottom}>
+                  <Text>Tax: </Text>
+                  <Text>{`$${total * 0.1}`}</Text>
+                </View>
+                <View style={styles.bottom}>
+                  <Text>Total: </Text>
+                  <Text>{`$${total + 2.5 + total * 0.1}`}</Text>
+                </View>
               </View>
-              <View style={styles.addRemoveIcon}>
-                <Icon
-                  onPress={() => quantityHandler('add', i)}
-                  name="add"
-                  size={22}
-                  color='#bbbbbb'
-                />
+              <View style={{ alignItems: 'center' }}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => login(username)}
+                >
+                  <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
+                    Continue to checkout
+                  </Text>
+                </TouchableOpacity>
               </View>
-            </View>
-            <Text style={{justifyContent: 'flex-end', marginRight: 20}}>
-              {item.price}
-            </Text>
+            </ScrollView>
           </View>
-        ))}
-      </ScrollView>
+        )
+        : (
+          <View style={styles.container}>
+            <SafeAreaView style={styles.top}>
+              <Text style={styles.orderText}>Your Order</Text>
+            </SafeAreaView>
+            <Text style={{ alignSelf: 'center', padding: 30, fontSize: 20 }}>Your bag is empty</Text>
+          </View>
+        )
+      }
     </View>
   )
 };
@@ -61,12 +112,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'gray'
+    borderBottomColor: 'gray',
   },
   orderText: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 20,
   },
   cart: {
     flexDirection: 'row',
@@ -75,8 +127,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
   },
-  addRemoveIcon: {
-    borderWidth: 1,
-    borderColor: '#cccccc',
-  }
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    marginHorizontal: 10,
+  },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '80%',
+    height: 40,
+    backgroundColor: 'rgb(54, 214, 21)'
+  },
 })
