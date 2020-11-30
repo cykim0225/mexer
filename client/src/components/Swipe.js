@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Dimensions, StyleSheet, Animated, SafeAreaView, PanResponder } from 'react-native';
-import dummyData from '../../dummyData';
+import dummyData from '../../utils/dummyData';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Checkout from './Checkout';

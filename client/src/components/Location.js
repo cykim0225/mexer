@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/Entypo';
 const Location = () => {
   const [zipCode, setZipCode] = useState('');
   const [isLocationSet, setIsLocationSet] = useState(false);
-  const [isValidZipcode, setIsValidZipcode] = useState(true);
+  const [isValidZipCode, setIsValidZipCode] = useState(true);
 
   const handleZipCodeSubmit = (zipcode) => {
     if (zipcode.length !== 5) {
-      setIsValidZipcode(false);
+      setIsValidZipCode(false);
       setZipCode('');
       return;
     }
@@ -17,18 +17,17 @@ const Location = () => {
       if (zipcode.charCodeAt(i) >= 48 && zipcode.charCodeAt(i) <= 57) {
         continue;
       } else {
-        setIsValidZipcode(false);
+        setIsValidZipCode(false);
         return;
       }
     }
 
-    setIsValidZipcode(true);
+    setIsValidZipCode(true);
     setIsLocationSet(true);
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      {console.log(isValidZipcode)}
       <View style={styles.infoContainer}>
         <Text style={styles.info}>Enter a zip code</Text>
       </View>
@@ -43,7 +42,7 @@ const Location = () => {
           />
         </View>
         <View style={styles.errorMessageContainer}>
-          {!isValidZipcode &&
+          {!isValidZipCode &&
             <Text style={styles.errorMessage}>
               Invalid zip code entered.
               {"\n"}Please enter a 5 digit US zip code.

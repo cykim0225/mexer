@@ -21,7 +21,6 @@ import axios from 'axios';
 import Login from './Login';
 
 const App = () => {
-  const [zipcode, setZipcode] = useState('');
   const [foodData, setFoodData] = useState([
     {
       id: 1,
