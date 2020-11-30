@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, TextInput, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import Swipe from './Swipe';
+import dummyData from '../../../utils/dummyData';
 
 const Location = () => {
   const [zipCode, setZipCode] = useState('');
@@ -50,6 +52,11 @@ const Location = () => {
           }
         </View>
       </View>
+      {isValidZipCode && isLocationSet &&
+        <View>
+          <Swipe foodData={dummyData}/>
+        </View>
+      }
     </SafeAreaView>
   );
 };

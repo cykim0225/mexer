@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Dimensions, StyleSheet, Animated, SafeAreaView, PanResponder } from 'react-native';
-import dummyData from '../../../utils/dummyData';
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Checkout from './Checkout';
@@ -9,7 +8,7 @@ import axios from 'axios';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const Swipe = ({ foodData, currentUser }) => {
+const Swipe = ({ foodData, zipCode }) => {
   const position = new Animated.ValueXY();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemNum, setitemNum] = useState(0);
