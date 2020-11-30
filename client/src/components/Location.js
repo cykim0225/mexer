@@ -54,7 +54,7 @@ const Location = () => {
       </View>
       {isValidZipCode && isLocationSet &&
         <View>
-          <Swipe foodData={dummyData}/>
+          <Swipe foodData={dummyData} zipCode={zipCode}/>
         </View>
       }
     </SafeAreaView>
