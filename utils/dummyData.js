@@ -1,4 +1,4 @@
-const dummyData = [[
+const dummyData = [
   {
     id: 1,
     name: 'Hamburger',
