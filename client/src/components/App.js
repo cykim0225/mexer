@@ -16,21 +16,8 @@ import {
   StatusBar,
 } from 'react-native';
 import Location from './Location';
-import Swipe from './Swipe';
-import axios from 'axios';
-import Login from './Login';
 
 const App = () => {
-  const [foodData, setFoodData] = useState([
-    {
-      id: 1,
-      name: 'Hamburger',
-      address: '65449 Viola Keys',
-      price: 10.99,
-      imageUrl: 'https://ghrsea12-mvp.s3-us-west-2.amazonaws.com/mvpPic/pic6.jpg',
-    }
-  ]);
-
   return (
     <View style={styles.background}>
       <Location />
