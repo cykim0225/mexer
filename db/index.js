@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb://localhost/mvp';
+const mongoURI = 'mongodb://localhost/mexer';
 
 const db = mongoose.connect(mongoURI , { useNewUrlParser: true, useUnifiedTopology: true });
 
